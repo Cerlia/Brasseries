@@ -34,15 +34,35 @@
             <li>
                 <label id="brasserie">Brasserie</label>
                 <select type="text" for="brasserie" data-th-field="*{brasserie}">
-                    <option data-th-each="item : ${lstBrasseries}" data-th-value="${item}"
+                    <option data-th-each="item : ${lstBrasseries}" data-th-value="${item.idBrasserie}"
                             data-th-text="${item.getNom()}"></option>
                 </select>
             </li>
             <input type="submit" value="Enregistrer">
         </ul>
     </form>
+    <h2>Liste des bières du catalogue</h2>
     <table>
-
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Degré d'alcool</th>
+            <th>Note</th>
+            <th>Brasserie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="item:${lstBieres}">
+            <td data-th-text="${item.nom}"></td>
+            <td data-th-text="${item.type}"></td>
+            <td data-th-text="${item.description}"></td>
+            <td data-th-text="${item.dgAlcool}"></td>
+            <td data-th-text="${item.note}"></td>
+            <td data-th-text="${item.brasserie.nom}"></td>
+        </tr>
+        </tbody>
     </table>
 </main>
 </body>

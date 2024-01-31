@@ -52,7 +52,7 @@ public class BiereController {
             return "view-biere";
         } else {
             biereService.create(biere);
-            return "redirect:/brasserie";
+            return "redirect:/biere";
         }
     }
 }

@@ -13,4 +13,5 @@ public interface BrasserieService {
      */
     void create(Brasserie brasserie) throws BrasserieServiceException ;
     List<Brasserie> getAll();
+    Brasserie getById(Integer id);
 }
