@@ -5,6 +5,47 @@
     <title>Accueil</title>
 </head>
 <body>
-<h1>Bienvenue sur Brasserie.com</h1>
+<main>
+    <h1>Bienvenue sur Brasserie.com</h1>
+    <form data-th-object="${brasserie}" action="/brasserie" method="post">
+        <ul>
+            <li>
+                <label id="nom" >Nom</label>
+                <input type="text" for="nom" data-th-field="*{nom}" required />
+            </li>
+            <li>
+                <label id="adresse" >Adresse</label>
+                <input type="text" for="adresse" data-th-field="*{adresse}" />
+            </li>
+            <li>
+                <label id="coordGPS" >Coordonnées GPS</label>
+                <input type="text" for="coordGPS" data-th-field="*{coordGPS}" />
+            </li>
+            <li>
+                <label id="dtOuverture" >Date d'ouverture</label>
+                <input type="date" for="dtOuverture" data-th-field="*{dtOuverture}" />
+            </li>
+            <input type="submit" value="Enregistrer">
+        </ul>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Coordonnées GPS</th>
+                <th>Date d'ouverture</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="item:${lstBrasseries}">
+            <td data-th-text="${item.nom}"></td>
+            <td data-th-text="${item.adresse}"></td>
+            <td data-th-text="${item.coordGPS}"></td>
+            <td data-th-text="${item.dtOuverture}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
 </body>
 </html>
