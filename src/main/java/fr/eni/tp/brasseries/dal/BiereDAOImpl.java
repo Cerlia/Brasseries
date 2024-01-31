@@ -18,9 +18,12 @@ import java.util.List;
 
 @Repository
 public class BiereDAOImpl implements BiereDAO {
-
     private final String INSERT = "INSERT INTO BIERE (nom, type, description, dg_alcool, note, id_brasserie) VALUES (:nom, :type, :description, :dgAlcool, :note, :idBrasserie)";
-    private final String SELECT_ALL = "SELECT (id_biere, nom, type, description, dg_alcool, note, id_brasserie) FROM BIERE";
+    private final String SELECT_ALL = "SELECT id_biere, nom, type, description, dg_alcool, note, id_brasserie FROM BIERE";
+    private final String SELECT_ALL_BY_BRASSERIE_ID = "SELECT id_biere, nom, type, description, dg_alcool, note, id_brasserie FROM BIERE WHERE id_brasserie = :idBrasserie;";
+
+    @Autowired
+    BrasserieDAO brasserieDAO;
 
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
@@ -46,21 +49,17 @@ public class BiereDAOImpl implements BiereDAO {
 
     @Override
     public List<Biere> selectAll() {
-
-        return jdbcTemplate.query(SELECT_ALL, );
+        return jdbcTemplate.query(SELECT_ALL, new BiereRowMapper());
     }
 
     @Override
     public List<Biere> selectAllByBrasserieId(Integer idBrasserie) {
-        return null;
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("idBrasserie", idBrasserie);
+        return jdbcTemplate.query(SELECT_ALL_BY_BRASSERIE_ID, parameterSource, new BiereRowMapper());
     }
 
-
-    @Component
     public class BiereRowMapper implements RowMapper<Biere> {
-
-        @Autowired
-        BrasserieDAO brasserieDAO;
 
         @Override
         public Biere mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -70,33 +69,10 @@ public class BiereDAOImpl implements BiereDAO {
             biere.setDescription(rs.getString("description"));
             biere.setDgAlcool(rs.getDouble("dg_alcool"));
             biere.setNote(rs.getInt("note"));
-
-
-            //biere.setNom(rs.getString("type"));
-
-//            Brasserie brasserie = brasserieDAO...
+            biere.setType(Type.valueOf(rs.getString("type")));
+            Brasserie brasserie = brasserieDAO.selectById(rs.getInt("id_brasserie"));
             biere.setBrasserie(brasserie);
-
-
-            film.setTitre(rs.getString("titre"));
-            film.setAnnee(Integer.parseInt(rs.getString("annee")));
-            film.setDuree(Integer.parseInt(rs.getString("duree")));
-            film.setSynopsis(rs.getString("synopsis"));
-
-            Genre genre = genreDAO.read(Long.valueOf(rs.getString("id_genre")));
-            film.setGenre(genre);
-
-            Participant realisateur = participantDAO.read(Long.valueOf(rs.getString("id_realisateur")));
-            film.setRealisateur(realisateur);
-
-            List<Participant> acteurs = participantDAO.findActeurs(Long.valueOf(rs.getString("id")));
-            film.setActeurs(acteurs);
-
-            List<Avis> avis = avisDAO.findByFilm(Long.valueOf(rs.getString("id")));
-            if (null != avis) {
-                film.setAvis(avis);
-            }
-            return film;
+            return biere;
         }
     }
 
