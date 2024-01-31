@@ -7,5 +7,6 @@ import java.util.List;
 public interface BrasserieDAO {
     void insert(Brasserie brasserie);
     List<Brasserie> selectAll();
+    Brasserie selectById(Integer idBrasserie);
 
 }
