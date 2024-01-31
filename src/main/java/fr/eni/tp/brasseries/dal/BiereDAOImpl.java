@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public class BiereDAOImpl implements BiereDAO {
 
+    private final String INSERT = "INSERT INTO BIERE (nom, type, description, dg_alcool, note, id_brasserie) VALUES (:nom, :type, :description, :dgAlcool, :note, :idBrasserie)";
+
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
     @Override
@@ -20,15 +22,13 @@ public class BiereDAOImpl implements BiereDAO {
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("nom", biere.getNom());
-        namedParameters.addValue("type", biere.getType());
+        namedParameters.addValue("type", biere.getType().toString());
         namedParameters.addValue("description", biere.getDescription());
         namedParameters.addValue("dgAlcool", biere.getDgAlcool());
         namedParameters.addValue("note", biere.getNote());
         namedParameters.addValue("idBrasserie", biere.getBrasserie().getIdBrasserie());
 
-        String sql = "INSERT INTO CONTACT (nom, type, description, dg_alcool, note, id_brasserie) VALUES (:nom, :type, :description, :dgAlcool, :note, :idBrasserie)";
-
-        jdbcTemplate.update(sql, namedParameters, keyHolder);
+        jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
         if (keyHolder != null && keyHolder.getKey() != null) {
             biere.setIdBiere(keyHolder.getKey().intValue());
