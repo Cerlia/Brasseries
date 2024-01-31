@@ -22,6 +22,7 @@ public class BrasserieServiceImpl implements BrasserieService {
 
     @Override
     public List<Brasserie> getAll() {
+
         return brasserieDAO.selectAll();
     }
 }
