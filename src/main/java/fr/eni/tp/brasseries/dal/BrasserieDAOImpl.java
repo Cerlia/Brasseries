@@ -5,6 +5,7 @@ import fr.eni.tp.brasseries.bo.Brasserie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,7 +21,7 @@ public class BrasserieDAOImpl implements BrasserieDAO {
 
     private final String INSERT = "INSERT INTO BRASSERIE (nom, adresse, coord_gps, dt_ouverture) VALUES (:nom, :adresse, :coordGPS, :dtOuverture)";
     private final String SELECT_ALL = "SELECT id_brasserie, nom, adresse, coord_gps, dt_ouverture FROM BRASSERIE";
-    private final String SELECT_BY_ID = "SELECT id_brasserie, nom, adresse, coord_gps, dt_ouverture FROM BRASSERIE WHERE id_brasserie=?";
+    private final String SELECT_BY_ID = "SELECT id_brasserie, nom, adresse, coord_gps, dt_ouverture FROM BRASSERIE WHERE id_brasserie=:id";
 
     RowMapper<Brasserie> rowMapper = (rs, i) ->
             new Brasserie(rs.getInt("id_brasserie"),
@@ -56,7 +57,10 @@ public class BrasserieDAOImpl implements BrasserieDAO {
 
     @Override
     public Brasserie selectById(Integer idBrasserie) {
-        return jdbcTemplate.queryForObject(SELECT_BY_ID, new BrasserieRowMapper(), idBrasserie);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", idBrasserie);
+
+        return jdbcTemplate.queryForObject(SELECT_BY_ID, parameterSource, new BrasserieRowMapper());
     }
 
     @Component
