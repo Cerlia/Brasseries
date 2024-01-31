@@ -5,6 +5,7 @@ import fr.eni.tp.brasseries.bll.BrasserieService;
 import fr.eni.tp.brasseries.bll.BrasserieServiceException;
 import fr.eni.tp.brasseries.bo.Biere;
 import fr.eni.tp.brasseries.bo.Brasserie;
+import fr.eni.tp.brasseries.bo.Type;
 import fr.eni.tp.brasseries.dal.BrasserieDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -33,6 +35,10 @@ public class BiereController {
     @ModelAttribute("lstBrasseries")
     List<Brasserie> getBrasseries() {
         return brasserieService.getAll();
+    }
+    @ModelAttribute("lstTypes")
+    List<Type> getTypes() {
+        return Arrays.stream(Type.values()).toList();
     }
 
     @GetMapping

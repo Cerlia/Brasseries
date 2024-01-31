@@ -7,6 +7,43 @@
 <body>
 <main>
     <h1>Création d'une nouvelle bière</h1>
+    <form data-th-object="${biere}" action="/biere" method="post">
+        <ul>
+            <li>
+                <label id="nom">Nom</label>
+                <input type="text" for="nom" data-th-field="*{nom}">
+            </li>
+            <li>
+                <label id="type">Type</label>
+                <select type="text" for="type" data-th-field="*{type}">
+                    <option data-th-each="item : ${lstTypes}" data-th-value="${item}" data-th-text="${item}"></option>
+                </select>
+            </li>
+            <li>
+                <label id="description">Description</label>
+                <textarea for="description" data-th-field="*{description}"></textarea>
+            </li>
+            <li>
+                <label id="dgAlcool">Degré d'alccol</label>
+                <input type="number" for="dgAlcool" data-th-field="*{dgAlcool}">
+            </li>
+            <li>
+                <label id="note">Note</label>
+                <input type="number" for="note" data-th-field="*{note}">
+            </li>
+            <li>
+                <label id="brasserie">Brasserie</label>
+                <select type="text" for="brasserie" data-th-field="*{brasserie}">
+                    <option data-th-each="item : ${lstBrasseries}" data-th-value="${item}"
+                            data-th-text="${item.getNom()}"></option>
+                </select>
+            </li>
+            <input type="submit" value="Enregistrer">
+        </ul>
+    </form>
+    <table>
+
+    </table>
 </main>
 </body>
 </html>
