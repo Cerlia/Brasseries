@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" data-th-fragment="layout(titrePage, contenuPage)">
+<head>
+    <meta charset="UTF-8">
+    <title data-th-replace="${titrePage}"></title>
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+<!--  Intégration du fragment entete   -->
+<div data-th-replace="~{fragments/fragment-entete :: frag-entete}"></div>
+
+<!--  Intégration de la variable "contenu principal"   -->
+<main data-th-replace="${contenuPage} ?: ~{}"></main>
+
+<!--  Intégration du fragment piedpage   -->
+<div data-th-replace="~{fragments/fragment-piedpage :: frag-piedpage}"></div>
+</body>
+</html>
